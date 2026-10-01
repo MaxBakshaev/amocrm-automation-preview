@@ -1,0 +1,43 @@
+flowchart LR
+    subgraph P1["📥 Приём и подготовка"]
+        direction TB
+        IN(["📧 <b>Письмо или форма</b><br/><small>заявка с чертежами</small>"]):::client
+        D0["🧭 <b>Диспетчер писем</b><br/><small>AI определяет тип письма</small>"]:::auto
+        S1["🆕 <b>1 · Новая заявка</b><br/><small>разбор чертежей, клиент в CRM</small>"]:::auto
+        S2["🗂️ <b>2 · Файловая структура</b><br/><small>папки заказа на Google Drive</small>"]:::auto
+        S3["📋 <b>3 · Сбор ТЗ и брифинг</b><br/><small>3D-модели и опросник</small>"]:::auto
+        S4["🏷️ <b>4 · Проверка наименований</b><br/><small>комплект PDF · STP · DWG</small>"]:::auto
+        IN --> D0 --> S1 --> S2 --> S3 --> S4
+    end
+    subgraph P2["💼 Расчёт и продажа"]
+        direction TB
+        S5["🧮 <b>5 · Расчёт и инженер</b><br/><small>таблица и архив производству</small>"]:::sale
+        S6["💰 <b>6 · Обработка расчёта</b><br/><small>AI извлекает цену</small>"]:::sale
+        S7["📨 <b>7 · КП отправлено</b><br/><small>КП и счёт у клиента</small>"]:::sale
+        S9["💬 <b>9 · Отработка возражений</b><br/><small>ИИ-агент, в разработке</small>"]:::plan
+        S8["✅ <b>8 · Согласование / оплата</b><br/><small>платёжный документ для УПД</small>"]:::sale
+        S5 --> S6 --> S7
+        S7 -- "возражения" --> S9
+        S9 -- "договорились" --> S8
+        S7 -- "согласие" --> S8
+    end
+    subgraph P3["🏭 Исполнение"]
+        direction TB
+        S10["🏭 <b>10 · Производство</b><br/><small>запуск и персональная упаковка</small>"]:::exec
+        S11["🚚 <b>11 · В процессе доставки</b><br/><small>отслеживание в планах</small>"]:::plan
+        S12["📦 <b>12 · Упаковка и фото</b><br/><small>приёмка партий, фото, УПД</small>"]:::exec
+        S13["📄 <b>13 · Отгрузка / ЭДО</b><br/><small>документы клиенту</small>"]:::exec
+        S14["🔍 <b>14 · Проверка качества</b><br/><small>звонок клиенту через неделю</small>"]:::exec
+        S15["🏁 <b>15 · Успешно реализовано</b><br/><small>сделка закрыта с историей</small>"]:::exec
+        S10 --> S11 --> S12 --> S13 --> S14 --> S15
+    end
+    P1 --> P2 --> P3
+    classDef client fill:#FDE7EF,stroke:#D63A6E,color:#7A1236
+    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
+    classDef sale fill:#FFF1E0,stroke:#EA8A1E,color:#7A3E00
+    classDef exec fill:#E7F7E9,stroke:#2E9E4F,color:#14532D
+    classDef plan fill:#F6F6F6,stroke:#9CA3AF,color:#4B5563,stroke-dasharray:5 4
+    linkStyle default stroke:#8A94A6,stroke-width:1.5px
+    style P1 fill:none,stroke:#9CA3AF,stroke-dasharray:4 3
+    style P2 fill:none,stroke:#9CA3AF,stroke-dasharray:4 3
+    style P3 fill:none,stroke:#9CA3AF,stroke-dasharray:4 3

@@ -1,0 +1,37 @@
+flowchart LR
+    subgraph P1["📥 Приём и подготовка"]
+        direction TB
+        a1(["🧑‍💼 <b>1 · Заказчик</b><br/><small>письмо с чертежами</small>"]):::client
+        a2["⚙️ <b>2 · Автоматика</b><br/><small>AI-разбор, сделка, папки</small>"]:::auto
+        a3["⚙️ <b>3 · Автоматика</b><br/><small>задачи: 3D-модели, опросник</small>"]:::auto
+        a4["👥 <b>4 · Команда</b><br/><small>закрывает задачи в боте</small>"]:::staff
+        a1 --> a2 --> a3 --> a4
+    end
+    subgraph P2["💼 Расчёт и продажа"]
+        direction TB
+        b1["⚙️ <b>5 · Автоматика</b><br/><small>таблица и архив производству</small>"]:::auto
+        b2(["🏭 <b>6 · Производство</b><br/><small>расчёт цены</small>"]):::ext
+        b3["⚙️ <b>7 · Автоматика</b><br/><small>задача: сформировать КП</small>"]:::auto
+        b4["👥 <b>8 · Команда</b><br/><small>КП и счёт заказчику</small>"]:::staff
+        b5(["🧑‍💼 <b>9 · Заказчик</b><br/><small>согласие и оплата</small>"]):::client
+        b1 --> b2 --> b3 --> b4 --> b5
+    end
+    subgraph P3["🏭 Исполнение"]
+        direction TB
+        c1["👥 <b>10 · Команда</b><br/><small>«Разместить в производство»</small>"]:::staff
+        c2["⚙️ <b>11 · Автоматика</b><br/><small>письмо о запуске</small>"]:::auto
+        c3(["🏭 <b>12 · Производство</b><br/><small>детали партиями</small>"]):::ext
+        c4["👥 <b>13 · Команда</b><br/><small>приход, размеры, фото</small>"]:::staff
+        c5["⚙️ <b>14 · Автоматика</b><br/><small>УПД заказчику, задачи</small>"]:::auto
+        c6["👥 <b>15 · Команда</b><br/><small>документы и звонок заказчику</small>"]:::staff
+        c1 --> c2 --> c3 --> c4 --> c5 --> c6
+    end
+    P1 --> P2 --> P3
+    classDef client fill:#FDE7EF,stroke:#D63A6E,color:#7A1236
+    classDef staff fill:#E0F4F1,stroke:#1E9E8A,color:#0B4F45
+    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
+    classDef ext fill:#FFEBDD,stroke:#E8742F,color:#7A3510
+    linkStyle default stroke:#8A94A6,stroke-width:1.5px
+    style P1 fill:none,stroke:#9CA3AF,stroke-dasharray:4 3
+    style P2 fill:none,stroke:#9CA3AF,stroke-dasharray:4 3
+    style P3 fill:none,stroke:#9CA3AF,stroke-dasharray:4 3

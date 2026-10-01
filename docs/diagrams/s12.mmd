@@ -1,0 +1,17 @@
+flowchart TB
+    A(["📥 <b>Приход деталей</b><br/><small>инженер или руководитель</small>"]):::staff --> T1>"📌 <b>Инженеру · 2 ч</b><br/>проверка размеров"]:::task
+    T1 -- "не прошли" --> RET["↩️ Ждут повторного прихода"]:::plan
+    T1 -- "прошли" --> UPD["📄 <b>УПД</b><br/><small>клиенту и ассистенту</small>"]:::auto
+    T1 -- "прошли" --> T2>"📌 <b>Инженеру · 2 ч</b><br/>фотоотчёт упаковки"]:::task
+    T2 -- "в папке 3+ фото" --> T3>"📌 <b>Ассистенту · 2 ч</b><br/>проверка перед отгрузкой"]:::task
+    T3 -- "замечание" --> T4>"📌 <b>Инженеру</b><br/>переснять фото"]:::task
+    T4 -.-> T3
+    T3 -- "приняты все<br/>детали заказа" --> T5>"📌 <b>Ассистенту</b><br/>КП бухгалтеру"]:::task
+    T3 -- "приняты не все" --> W["⏳ Ждём остальные партии"]:::plan
+    T5 --> N(["➡️ <b>13 · Отгрузка / ЭДО</b>"]):::stage
+    classDef staff fill:#E0F4F1,stroke:#1E9E8A,color:#0B4F45
+    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
+    classDef task fill:#FFF4D6,stroke:#E0A100,color:#6B4E00
+    classDef stage fill:#E7F7E9,stroke:#2E9E4F,color:#14532D
+    classDef plan fill:#F6F6F6,stroke:#9CA3AF,color:#4B5563,stroke-dasharray:5 4
+    linkStyle default stroke:#8A94A6,stroke-width:1.5px

@@ -1,0 +1,11 @@
+flowchart TB
+    S(["👤 <b>Сотрудник</b>"]):::staff --> F1["📝 <b>Шаг 1</b><br/><small>часть названия компании</small>"]:::auto
+    F1 --> F2["🔎 <b>Шаг 2</b><br/><small>выбор из найденных в amoCRM</small>"]:::auto
+    F2 --> F3["📎 <b>Шаг 3</b><br/><small>контакт, комментарий, чертежи</small>"]:::auto
+    F3 --> M["✉️ <b>Письмо на ящик заявок</b><br/><small>с маркерами ID</small>"]:::auto
+    M --> D["🧭 <b>Диспетчер</b>"]:::auto
+    D --> N(["➡️ <b>1 · Новая заявка</b><br/><small>клиент по ID</small>"]):::stage
+    classDef staff fill:#E0F4F1,stroke:#1E9E8A,color:#0B4F45
+    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
+    classDef stage fill:#E7F7E9,stroke:#2E9E4F,color:#14532D
+    linkStyle default stroke:#8A94A6,stroke-width:1.5px

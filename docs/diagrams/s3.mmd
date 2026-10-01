@@ -1,0 +1,15 @@
+flowchart TB
+    T(["🔔 <b>Этап 3</b>"]):::stage --> SC["🔎 <b>Что есть в чертежах и файлах</b>"]:::auto
+    SC -- "все характеристики" --> DT["📄 <b>Details.txt</b><br/><small>RU + EN</small>"]:::auto
+    SC -- "характеристик нет" --> TF["📋 <b>Опросник Tally</b><br/><small>предзаполнен из чертежей</small>"]:::auto
+    SC -- "нет 3D-моделей" --> TE>"📌 <b>Инженеру · 4 ч</b><br/>разработать 3D-модели"]:::task
+    TF --> TM>"📌 <b>Менеджеру · 4 ч</b><br/>связаться с клиентом<br/>и заполнить опросник"]:::task
+    TM --> Q["📥 <b>Ответы опросника</b><br/><small>Details.txt и чертежи</small>"]:::auto
+    DT --> OK(["✅ <b>Опросник и 3D-модели готовы</b>"]):::stage
+    Q --> OK
+    TE --> OK
+    OK --> N(["➡️ <b>4 · Проверка наименований</b>"]):::stage
+    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
+    classDef task fill:#FFF4D6,stroke:#E0A100,color:#6B4E00
+    classDef stage fill:#E7F7E9,stroke:#2E9E4F,color:#14532D
+    linkStyle default stroke:#8A94A6,stroke-width:1.5px

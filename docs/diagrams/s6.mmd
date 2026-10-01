@@ -1,0 +1,11 @@
+flowchart TB
+    P(["🏭 <b>Ответ производства</b><br/><small>через диспетчер</small>"]):::ext --> AI{{"🧠 <b>Gemini</b><br/><small>текст · фото · таблицы</small>"}}:::ai
+    AI --> PR["💰 <b>Цена</b><br/><small>в сделку и на Диск</small>"]:::auto
+    PR --> TA>"📌 <b>Ассистенту · 1 ч</b><br/>сформировать КП"]:::task
+    TA -- "задача закрыта" --> N(["➡️ <b>7 · КП отправлено</b>"]):::stage
+    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
+    classDef ai fill:#F1E8FD,stroke:#8B5CF6,color:#4C1D95
+    classDef task fill:#FFF4D6,stroke:#E0A100,color:#6B4E00
+    classDef stage fill:#E7F7E9,stroke:#2E9E4F,color:#14532D
+    classDef ext fill:#FFEBDD,stroke:#E8742F,color:#7A3510
+    linkStyle default stroke:#8A94A6,stroke-width:1.5px

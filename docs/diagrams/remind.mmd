@@ -1,0 +1,9 @@
+flowchart TB
+    T(["⏰ <b>Срок прошёл</b>"]):::alert --> R1["🟢 <b>№1</b> · напоминание"]:::exec
+    R1 -- "через час" --> R2["🟡 <b>№2</b> · повторное"]:::task
+    R2 -- "через час" --> R3["🔴 <b>№3</b> · срочно"]:::alert
+    R3 -- "через час" --> R4["🔴 <b>№4 и далее</b><br/>+ 🚨 руководителю"]:::alert
+    classDef exec fill:#E7F7E9,stroke:#2E9E4F,color:#14532D
+    classDef task fill:#FFF4D6,stroke:#E0A100,color:#6B4E00
+    classDef alert fill:#FDECEC,stroke:#DC3B3B,color:#7F1D1D
+    linkStyle default stroke:#8A94A6,stroke-width:1.5px

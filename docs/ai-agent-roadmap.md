@@ -26,21 +26,7 @@
 
 За основу берётся подход из [ai-parent-interview-bot](https://github.com/MaxBakshaev/ai-parent-interview-bot) — бота на n8n и Claude, который проводит структурированные интервью.
 
-```mermaid
-flowchart TB
-    EV(["📬 <b>Письмо клиента</b><br/><small>или событие amoCRM</small>"]):::client --> CTX["📇 <b>Контекст</b><br/><small>сделка, КП, история клиента, кейсы</small>"]:::auto
-    CTX --> REQ{{"🧠 <b>Запрос к Claude</b><br/><small>с кэшированием промпта</small>"}}:::ai
-    REQ -- "нужен инструмент" --> T["🛠️ <b>Инструмент</b><br/><small>под-воркфлоу n8n</small>"]:::auto
-    T -- "лимит итераций не исчерпан" --> REQ
-    T -. "лимит исчерпан" .-> STOP["🚨 <b>Остановка</b><br/><small>и передача менеджеру</small>"]:::alert
-    REQ -- "готов ответ" --> OUT(["✉️ <b>Ответ клиенту</b><br/><small>или передача менеджеру</small>"]):::stage
-    classDef client fill:#FDE7EF,stroke:#D63A6E,color:#7A1236
-    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
-    classDef ai fill:#F1E8FD,stroke:#8B5CF6,color:#4C1D95
-    classDef stage fill:#E7F7E9,stroke:#2E9E4F,color:#14532D
-    classDef alert fill:#FDECEC,stroke:#DC3B3B,color:#7F1D1D
-    linkStyle default stroke:#8A94A6,stroke-width:1.5px
-```
+<p align="center"><img src="img/diagrams/agent.png" alt="Схема агентного цикла" width="595"></p>
 
 - **Ручной агентный цикл вместо встроенного узла AI Agent.** Запрос к Anthropic Messages API, разбор ответа, выполнение запрошенного инструмента отдельным под-воркфлоу, возврат результата модели — и так, пока не получится текстовый ответ. Лимит итераций с аварийной остановкой защищает от зацикливания, а каждый шаг виден в истории выполнений n8n.
 - **Кэширование промпта.** Статичный системный промпт, описания инструментов и накопленная история помечаются `cache_control`. В ai-parent-interview-bot это снизило стоимость одного полного диалога примерно на порядок, с $1–2 до $0,1–0,2.

@@ -1,0 +1,16 @@
+flowchart TB
+    KP(["📨 <b>7 · КП отправлено</b>"]):::sale
+    KP -- "согласие" --> S8(["✅ <b>8 · Согласование / оплата</b>"]):::sale
+    KP -- "возражения" --> S9(["💬 <b>9 · Отработка возражений</b>"]):::plan
+    S9 -- "договорились" --> S8
+    S8 --> CHK["🐍 <b>kp-bot</b><br/><small>вид оплаты по снимку КП</small>"]:::auto
+    CHK -- "предоплата" --> TA>"📌 <b>Ассистенту · 2 ч</b><br/>номер и дата платёжки"]:::task
+    CHK -- "постоплата" --> OK["задача не нужна"]:::plan
+    AG{{"🤖 <b>ИИ-агент на Claude</b><br/><small>в разработке</small>"}}:::plan
+    AG -.-> KP
+    AG -.-> S9
+    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
+    classDef sale fill:#FFF1E0,stroke:#EA8A1E,color:#7A3E00
+    classDef task fill:#FFF4D6,stroke:#E0A100,color:#6B4E00
+    classDef plan fill:#F6F6F6,stroke:#9CA3AF,color:#4B5563,stroke-dasharray:5 4
+    linkStyle default stroke:#8A94A6,stroke-width:1.5px

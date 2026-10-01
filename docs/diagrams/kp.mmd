@@ -1,0 +1,27 @@
+flowchart LR
+    subgraph IN["👩‍💼 Ассистент задаёт"]
+        direction LR
+        i1["📝 <b>позиции</b><br/><small>и себестоимость</small>"]:::staff
+        i2["💱 <b>/kurs</b><br/><small>рабочий курс</small>"]:::staff
+        i3["🧾 <b>/nds · /round</b><br/><small>НДС и округление</small>"]:::staff
+        i4["🏢 <b>/buyers</b><br/><small>покупатель</small>"]:::staff
+        i5["💳 <b>/platezhka</b><br/><small>номер платёжки</small>"]:::staff
+    end
+    K{{"🐍 <b>kp-bot</b><br/><small>FastAPI + SQLite</small>"}}:::auto
+    subgraph OUT["📄 Бот выпускает"]
+        direction LR
+        o1["📄 <b>КП</b>"]:::exec
+        o2["🧾 <b>Счёт на оплату</b>"]:::exec
+        o3["📑 <b>Спецификация</b>"]:::exec
+        o4["📐 <b>Приложение с чертежами</b>"]:::exec
+        o5["📄 <b>УПД</b><br/><small>с подписью и без</small>"]:::exec
+    end
+    IN --> K --> OUT
+    K -.- DB[("🗄️ <b>SQLite</b><br/><small>снимки КП, счётчики,<br/>покупатели</small>")]:::store
+    classDef staff fill:#E0F4F1,stroke:#1E9E8A,color:#0B4F45
+    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
+    classDef exec fill:#E7F7E9,stroke:#2E9E4F,color:#14532D
+    classDef store fill:#EEF1F5,stroke:#64748B,color:#1F2937
+    linkStyle default stroke:#8A94A6,stroke-width:1.5px
+    style IN fill:none,stroke:#9CA3AF,stroke-dasharray:4 3
+    style OUT fill:none,stroke:#9CA3AF,stroke-dasharray:4 3

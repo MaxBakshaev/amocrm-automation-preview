@@ -1,0 +1,9 @@
+flowchart LR
+    C(["🕒 <b>03:00</b><br/><small>cron</small>"]):::auto --> X["📤 <b>Экспорт</b><br/><small>все воркфлоу</small>"]:::auto
+    X --> S["🧹 <b>Очистка</b><br/><small>[test], pinData, shared</small>"]:::auto
+    S --> L["🔐 <b>gitleaks</b>"]:::alert
+    L --> G[("💾 <b>GitHub</b><br/><small>коммит при изменениях</small>")]:::store
+    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
+    classDef store fill:#EEF1F5,stroke:#64748B,color:#1F2937
+    classDef alert fill:#FDECEC,stroke:#DC3B3B,color:#7F1D1D
+    linkStyle default stroke:#8A94A6,stroke-width:1.5px

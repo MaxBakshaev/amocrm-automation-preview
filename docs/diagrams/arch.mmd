@@ -1,0 +1,24 @@
+flowchart TB
+    C(["🧑‍💼 <b>Заказчик</b>"]):::client
+    P(["🏭 <b>Производство</b><br/><small>подрядчики в Китае</small>"]):::ext
+    S(["👥 <b>Сотрудники</b><br/><small>менеджер · инженер<br/>ассистент · руководитель</small>"]):::staff
+    C <-- "① заявка" --> MAIL["📬 <b>Почта</b><br/><small>IMAP · SMTP</small>"]:::store
+    P <-- "расчёт" --> MAIL
+    S <-- "② задачи" --> B1["🤖 <b>TG-Бот</b><br/><b>Контроль задач</b>"]:::auto
+    S <-- "③ документы" --> B2["🤖 <b>TG-Бот</b><br/><b>Бухгалтерия</b>"]:::auto
+    S -- "заявка вручную" --> F["📝 <b>Форма</b><br/><b>n8n</b>"]:::auto
+    CR(["🕒 <b>Расписание</b><br/><small>сроки</small>"]):::auto --> N
+    MAIL <--> N{{"⚙️ <b>n8n</b><br/><small>31 воркфлоу</small>"}}:::auto
+    B1 <--> N
+    B2 <--> N
+    F --> N
+    N <--> AI{{"🧠 <b>Gemini 2.5</b><br/><small>Pro · Flash</small>"}}:::ai
+    N <--> PY["🐍 <b>Сервисы на Python</b><br/><small>kp-bot + SQLite<br/>parts-table-builder</small>"]:::auto
+    N <--> DATA[("🗄️ <b>Данные</b><br/><small>amoCRM · Google Drive, Sheets<br/>Data Tables · бэкап в GitHub</small>")]:::store
+    classDef client fill:#FDE7EF,stroke:#D63A6E,color:#7A1236
+    classDef staff fill:#E0F4F1,stroke:#1E9E8A,color:#0B4F45
+    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
+    classDef ai fill:#F1E8FD,stroke:#8B5CF6,color:#4C1D95
+    classDef ext fill:#FFEBDD,stroke:#E8742F,color:#7A3510
+    classDef store fill:#EEF1F5,stroke:#64748B,color:#1F2937
+    linkStyle default stroke:#8A94A6,stroke-width:1.5px

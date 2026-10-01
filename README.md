@@ -44,95 +44,13 @@
 
 Воронка в amoCRM — 15 рабочих этапов в трёх фазах. Цвет показывает фазу, пунктир — этапы в разработке и в планах.
 
-```mermaid
-flowchart LR
-    subgraph P1["📥 Приём и подготовка"]
-        direction TB
-        IN(["📧 <b>Письмо или форма</b><br/><small>заявка с чертежами</small>"]):::client
-        D0["🧭 <b>Диспетчер писем</b><br/><small>AI определяет тип письма</small>"]:::auto
-        S1["🆕 <b>1 · Новая заявка</b><br/><small>разбор чертежей, клиент в CRM</small>"]:::auto
-        S2["🗂️ <b>2 · Файловая структура</b><br/><small>папки заказа на Google Drive</small>"]:::auto
-        S3["📋 <b>3 · Сбор ТЗ и брифинг</b><br/><small>3D-модели и опросник</small>"]:::auto
-        S4["🏷️ <b>4 · Проверка наименований</b><br/><small>комплект PDF · STP · DWG</small>"]:::auto
-        IN --> D0 --> S1 --> S2 --> S3 --> S4
-    end
-    subgraph P2["💼 Расчёт и продажа"]
-        direction TB
-        S5["🧮 <b>5 · Расчёт и инженер</b><br/><small>таблица и архив производству</small>"]:::sale
-        S6["💰 <b>6 · Обработка расчёта</b><br/><small>AI извлекает цену</small>"]:::sale
-        S7["📨 <b>7 · КП отправлено</b><br/><small>КП и счёт у клиента</small>"]:::sale
-        S9["💬 <b>9 · Отработка возражений</b><br/><small>ИИ-агент, в разработке</small>"]:::plan
-        S8["✅ <b>8 · Согласование / оплата</b><br/><small>платёжный документ для УПД</small>"]:::sale
-        S5 --> S6 --> S7
-        S7 -- "возражения" --> S9
-        S9 -- "договорились" --> S8
-        S7 -- "согласие" --> S8
-    end
-    subgraph P3["🏭 Исполнение"]
-        direction TB
-        S10["🏭 <b>10 · Производство</b><br/><small>запуск и персональная упаковка</small>"]:::exec
-        S11["🚚 <b>11 · В процессе доставки</b><br/><small>отслеживание в планах</small>"]:::plan
-        S12["📦 <b>12 · Упаковка и фото</b><br/><small>приёмка партий, фото, УПД</small>"]:::exec
-        S13["📄 <b>13 · Отгрузка / ЭДО</b><br/><small>документы клиенту</small>"]:::exec
-        S14["🔍 <b>14 · Проверка качества</b><br/><small>звонок клиенту через неделю</small>"]:::exec
-        S15["🏁 <b>15 · Успешно реализовано</b><br/><small>сделка закрыта с историей</small>"]:::exec
-        S10 --> S11 --> S12 --> S13 --> S14 --> S15
-    end
-    P1 --> P2 --> P3
-    classDef client fill:#FDE7EF,stroke:#D63A6E,color:#7A1236
-    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
-    classDef sale fill:#FFF1E0,stroke:#EA8A1E,color:#7A3E00
-    classDef exec fill:#E7F7E9,stroke:#2E9E4F,color:#14532D
-    classDef plan fill:#F6F6F6,stroke:#9CA3AF,color:#4B5563,stroke-dasharray:5 4
-    linkStyle default stroke:#8A94A6,stroke-width:1.5px
-    style P1 fill:none,stroke:#9CA3AF,stroke-dasharray:4 3
-    style P2 fill:none,stroke:#9CA3AF,stroke-dasharray:4 3
-    style P3 fill:none,stroke:#9CA3AF,stroke-dasharray:4 3
-```
+<p align="center"><img src="docs/img/diagrams/funnel.png" alt="Схема этапов воронки по фазам" width="860"></p>
 
 ### Кто запускает каждый шаг
 
 Работу двигают четыре участника. Заказчик присылает письмо, автоматика разбирает его и ставит задачи, команда отвечает в Telegram-ботах, производство получает запросы письмами и присылает расчёт. Между шагами сделку переводят события: вебхук amoCRM о смене этапа, закрытие задачи, нажатие кнопки в боте или расписание.
 
-```mermaid
-flowchart LR
-    subgraph P1["📥 Приём и подготовка"]
-        direction TB
-        a1(["🧑‍💼 <b>1 · Заказчик</b><br/><small>письмо с чертежами</small>"]):::client
-        a2["⚙️ <b>2 · Автоматика</b><br/><small>AI-разбор, сделка, папки</small>"]:::auto
-        a3["⚙️ <b>3 · Автоматика</b><br/><small>задачи: 3D-модели, опросник</small>"]:::auto
-        a4["👥 <b>4 · Команда</b><br/><small>закрывает задачи в боте</small>"]:::staff
-        a1 --> a2 --> a3 --> a4
-    end
-    subgraph P2["💼 Расчёт и продажа"]
-        direction TB
-        b1["⚙️ <b>5 · Автоматика</b><br/><small>таблица и архив производству</small>"]:::auto
-        b2(["🏭 <b>6 · Производство</b><br/><small>расчёт цены</small>"]):::ext
-        b3["⚙️ <b>7 · Автоматика</b><br/><small>задача: сформировать КП</small>"]:::auto
-        b4["👥 <b>8 · Команда</b><br/><small>КП и счёт заказчику</small>"]:::staff
-        b5(["🧑‍💼 <b>9 · Заказчик</b><br/><small>согласие и оплата</small>"]):::client
-        b1 --> b2 --> b3 --> b4 --> b5
-    end
-    subgraph P3["🏭 Исполнение"]
-        direction TB
-        c1["👥 <b>10 · Команда</b><br/><small>«Разместить в производство»</small>"]:::staff
-        c2["⚙️ <b>11 · Автоматика</b><br/><small>письмо о запуске</small>"]:::auto
-        c3(["🏭 <b>12 · Производство</b><br/><small>детали партиями</small>"]):::ext
-        c4["👥 <b>13 · Команда</b><br/><small>приход, размеры, фото</small>"]:::staff
-        c5["⚙️ <b>14 · Автоматика</b><br/><small>УПД заказчику, задачи</small>"]:::auto
-        c6["👥 <b>15 · Команда</b><br/><small>документы и звонок заказчику</small>"]:::staff
-        c1 --> c2 --> c3 --> c4 --> c5 --> c6
-    end
-    P1 --> P2 --> P3
-    classDef client fill:#FDE7EF,stroke:#D63A6E,color:#7A1236
-    classDef staff fill:#E0F4F1,stroke:#1E9E8A,color:#0B4F45
-    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
-    classDef ext fill:#FFEBDD,stroke:#E8742F,color:#7A3510
-    linkStyle default stroke:#8A94A6,stroke-width:1.5px
-    style P1 fill:none,stroke:#9CA3AF,stroke-dasharray:4 3
-    style P2 fill:none,stroke:#9CA3AF,stroke-dasharray:4 3
-    style P3 fill:none,stroke:#9CA3AF,stroke-dasharray:4 3
-```
+<p align="center"><img src="docs/img/diagrams/who.png" alt="Схема: кто запускает каждый шаг" width="860"></p>
 
 <sub>Цвет шага — участник: розовый — заказчик, синий — автоматика, бирюзовый — команда, оранжевый — производство</sub>
 
@@ -140,32 +58,7 @@ flowchart LR
 
 Верхний ряд — те, кто запускает процессы: ① заказчик пишет на почту, ② сотрудники получают и закрывают задачи в TG-Боте Контроль задач, ③ ассистент готовит документы в TG-Боте Бухгалтерия. Производство общается с автоматикой письмами, а у самой автоматики есть расписание: контроль сроков, напоминания, отложенные шаги. В центре n8n, внизу — модели, сервисы и хранилища.
 
-```mermaid
-flowchart TB
-    C(["🧑‍💼 <b>Заказчик</b>"]):::client
-    P(["🏭 <b>Производство</b><br/><small>подрядчики в Китае</small>"]):::ext
-    S(["👥 <b>Сотрудники</b><br/><small>менеджер · инженер<br/>ассистент · руководитель</small>"]):::staff
-    C <-- "① заявка" --> MAIL["📬 <b>Почта</b><br/><small>IMAP · SMTP</small>"]:::store
-    P <-- "расчёт" --> MAIL
-    S <-- "② задачи" --> B1["🤖 <b>TG-Бот</b><br/><b>Контроль задач</b>"]:::auto
-    S <-- "③ документы" --> B2["🤖 <b>TG-Бот</b><br/><b>Бухгалтерия</b>"]:::auto
-    S -- "заявка вручную" --> F["📝 <b>Форма</b><br/><b>n8n</b>"]:::auto
-    CR(["🕒 <b>Расписание</b><br/><small>сроки</small>"]):::auto --> N
-    MAIL <--> N{{"⚙️ <b>n8n</b><br/><small>31 воркфлоу</small>"}}:::auto
-    B1 <--> N
-    B2 <--> N
-    F --> N
-    N <--> AI{{"🧠 <b>Gemini 2.5</b><br/><small>Pro · Flash</small>"}}:::ai
-    N <--> PY["🐍 <b>Сервисы на Python</b><br/><small>kp-bot + SQLite<br/>parts-table-builder</small>"]:::auto
-    N <--> DATA[("🗄️ <b>Данные</b><br/><small>amoCRM · Google Drive, Sheets<br/>Data Tables · бэкап в GitHub</small>")]:::store
-    classDef client fill:#FDE7EF,stroke:#D63A6E,color:#7A1236
-    classDef staff fill:#E0F4F1,stroke:#1E9E8A,color:#0B4F45
-    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
-    classDef ai fill:#F1E8FD,stroke:#8B5CF6,color:#4C1D95
-    classDef ext fill:#FFEBDD,stroke:#E8742F,color:#7A3510
-    classDef store fill:#EEF1F5,stroke:#64748B,color:#1F2937
-    linkStyle default stroke:#8A94A6,stroke-width:1.5px
-```
+<p align="center"><img src="docs/img/diagrams/arch.png" alt="Схема архитектуры" width="860"></p>
 
 | Слой | Технологии |
 |---|---|
@@ -208,29 +101,7 @@ flowchart TB
 
 Читает входящую почту и определяет тип письма. Формальные признаки (отправитель из производства, номер заказа в теме, файл с расчётом) код проверяет ещё до модели и при совпадении выставляет категорию сам. Отдельная эвристика отсекает подозрительные «заявки» без текста и вложений, а битая кодировка вызывает алерт вместо молчаливой ошибки. Новая заявка получает атомарный номер и создаёт сделку, расчёт от производства переводит сделку на «Обработку расчёта». Вопросы о статусе заказа, финансах, технике и логистике модель уже распознаёт, но ветки под них пока пустые: такие письма разбираются вручную.
 
-```mermaid
-flowchart TB
-    M(["📬 <b>Новое письмо</b>"]):::client --> PRE["Нормализация текста,<br/>кодировки и вложений"]:::auto
-    PRE -. "битая кодировка" .-> A1["🚨 Разработчику"]:::alert
-    PRE --> LLM{{"🧠 <b>Gemini</b><br/><small>8 категорий · резерв Pro</small>"}}:::ai
-    LLM -. "сбой модели" .-> A2["🚨 Руководителю<br/>и разработчику"]:::alert
-    LLM --> OVR["Код сверяет формальные признаки:<br/>отправитель, № заказа, файл расчёта"]:::auto
-    OVR -- "новая заявка" --> REAL{"Похоже<br/>на заявку?"}:::dec
-    OVR -- "расчёт<br/>производства" --> FIND["Поиск сделки<br/>по номеру заказа"]:::auto
-    OVR -- "статус, финансы, техника,<br/>логистика, спам" --> RES["Пока без действий:<br/>ветки заготовлены"]:::plan
-    REAL -- "да" --> NEW(["➡️ <b>1 · Новая заявка</b><br/><small>с атомарным номером</small>"]):::stage
-    REAL -- "нет" --> SUS["📣 Руководителю:<br/>подозрительная заявка"]:::alert
-    FIND -- "найдена" --> CALC(["➡️ <b>6 · Обработка расчёта</b>"]):::stage
-    FIND -. "нет" .-> NF["📣 Руководителю<br/>и разработчику"]:::alert
-    classDef client fill:#FDE7EF,stroke:#D63A6E,color:#7A1236
-    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
-    classDef ai fill:#F1E8FD,stroke:#8B5CF6,color:#4C1D95
-    classDef stage fill:#E7F7E9,stroke:#2E9E4F,color:#14532D
-    classDef alert fill:#FDECEC,stroke:#DC3B3B,color:#7F1D1D
-    classDef plan fill:#F6F6F6,stroke:#9CA3AF,color:#4B5563,stroke-dasharray:5 4
-    classDef dec fill:#FFFFFF,stroke:#64748B,color:#1F2937
-    linkStyle default stroke:#8A94A6,stroke-width:1.5px
-```
+<p align="center"><img src="docs/img/diagrams/dispatcher.png" alt="Схема диспетчера писем" width="860"></p>
 
 <sub>⚙️ Воркфлоу 0 «Диспетчер писем» и 0 «Авто-рестарт» · [каталог](docs/workflows.md)</sub>
 
@@ -238,42 +109,23 @@ flowchart TB
 
 Вебхук amoCRM запускает разбор: письмо и вложения, распаковка zip, 7z и rar. Gemini 2.5 Pro анализирует каждый чертёж: тип (деталь или сборочный чертёж со спецификацией), материал и его группа, марка, термообработка и твёрдость, покрытия, квалитет. Результат записывается в поля сделки и в файл `parts.json`. Контакт ищется по email, компания — по названию с нечётким сравнением: порог 90 % для названий в одном алфавите и 75 % при сравнении через транслитерацию (Industries ↔ Индастриз). Если никого не нашлось, создаются новые записи. Когда данных для автоматического заполнения не хватает, руководитель получает уведомление доукомплектовать сделку вручную. Если API модели упирается в лимиты, анализ ставится на паузу и повторяется, а сбой на одном чертеже не останавливает всю заявку.
 
-```mermaid
-flowchart LR
-    T(["🔔 <b>Этап 1</b><br/><small>письмо и вложения</small>"]):::stage --> AI{{"🧠 <b>Gemini Pro</b><br/><small>разбор чертежей</small>"}}:::ai
-    AI --> L["📇 <b>Поля сделки</b><br/><small>детали, материалы</small>"]:::auto
-    L --> K["👤 <b>Клиент в CRM</b><br/><small>найти или создать</small>"]:::auto
-    K --> N(["➡️ <b>2 · Файлы</b>"]):::stage
-    AI -. "мало данных" .-> PM["📣 Руководителю"]:::alert
-    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
-    classDef ai fill:#F1E8FD,stroke:#8B5CF6,color:#4C1D95
-    classDef stage fill:#E7F7E9,stroke:#2E9E4F,color:#14532D
-    classDef alert fill:#FDECEC,stroke:#DC3B3B,color:#7F1D1D
-    linkStyle default stroke:#8A94A6,stroke-width:1.5px
-```
+<p align="center"><img src="docs/img/diagrams/s1.png" alt="Схема этапа 1" width="860"></p>
 
-<table>
-<tr>
-<td valign="top">
-<b>Что автоматика заполняет в сделке</b>
-<ul>
-<li>номер заказа</li>
-<li>список деталей</li>
-<li>короткое название деталей</li>
-<li>ссылку на папку заказа</li>
-<li>отсутствующие 3D-модели</li>
-<li>файл <code>parts.json</code> с характеристиками</li>
-<li>статусы задач: 3D-модели, связь с клиентом, проверка файлов, КП</li>
-<li>ID письма с заявкой</li>
-<li>ID письма с расчётом</li>
-<li>контакт (телефон, почта, должность)</li>
-<li>компания (почта, сайт, адрес)</li>
-</ul>
-<sub>Карточка тестовой сделки после разбора</sub>
-</td>
-<td align="center" valign="top"><img src="docs/img/04-lead-card.png" alt="Карточка сделки после разбора чертежей" width="320"></td>
-</tr>
-</table>
+**Что автоматика заполняет в сделке:**
+
+- номер заказа
+- список деталей
+- короткое название деталей
+- ссылку на папку заказа
+- отсутствующие 3D-модели
+- файл `parts.json` с характеристиками
+- статусы задач: 3D-модели, связь с клиентом, проверка файлов, КП
+- ID письма с заявкой
+- ID письма с расчётом
+- контакт (телефон, почта, должность)
+- компания (почта, сайт, адрес)
+
+<p align="center"><img src="docs/img/04-lead-card.png" alt="Карточка сделки после разбора чертежей"><br><sub>Карточка тестовой сделки после разбора</sub></p>
 
 <sub>⚙️ Воркфлоу 1 · [каталог](docs/workflows.md)</sub>
 
@@ -281,16 +133,7 @@ flowchart LR
 
 Создаётся папка компании на Google Drive (с атомарным номером) и папка заказа с подпапками `1_ТЗ_и_Брифинг`, `2_Макеты_и_Дизайн`, `3_Сметы_и_Счета`. Вложения письма раскладываются в `1_ТЗ_и_Брифинг`, ссылка на папку сохраняется в сделке, и сделка переходит на «Сбор ТЗ».
 
-```mermaid
-flowchart LR
-    T(["🔔 <b>Этап 2</b>"]):::stage --> C["📁 <b>Папка компании</b><br/><small>или новая с номером</small>"]:::auto
-    C --> O["🗂️ <b>Папка заказа</b><br/><small>3 подпапки</small>"]:::auto
-    O --> U["📎 <b>Вложения</b><br/><small>в 1_ТЗ_и_Брифинг</small>"]:::auto
-    U --> N(["➡️ <b>3 · Сбор ТЗ</b>"]):::stage
-    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
-    classDef stage fill:#E7F7E9,stroke:#2E9E4F,color:#14532D
-    linkStyle default stroke:#8A94A6,stroke-width:1.5px
-```
+<p align="center"><img src="docs/img/diagrams/s2.png" alt="Схема этапа 2" width="860"></p>
 
 <p align="center"><img src="docs/img/05-drive-structure.png" alt="Папка заказа на Google Drive"><br><sub>Папка тестового заказа: номер компании, номер заказа и три подпапки</sub></p>
 
@@ -300,47 +143,33 @@ flowchart LR
 
 Сценарий зависит от того, что нашлось в чертежах. Если характеристики есть, сразу собирается `Details.txt` на русском и английском. Если нет, формируется опросник Tally, предзаполненный данными из чертежей, и менеджер получает задачу связаться с клиентом и заполнить его. Изначально опросник уходил клиенту с серией из трёх писем-напоминаний, но клиенты не любят заполнять формы сами, поэтому теперь его заполняет менеджер после разговора. Механизм писем сохранён и отключён заглушкой: этап планируется развивать. Для заявок больше чем на десять деталей опросник не формируется, руководитель получает уведомление. Если для части деталей нет 3D-моделей, инженер получает задачу их разработать. Когда опросник и 3D-модели готовы, сделка переходит на проверку наименований.
 
-```mermaid
-flowchart TB
-    T(["🔔 <b>Этап 3</b>"]):::stage --> SC["🔎 <b>Что есть в чертежах и файлах</b>"]:::auto
-    SC -- "все характеристики" --> DT["📄 <b>Details.txt</b><br/><small>RU + EN</small>"]:::auto
-    SC -- "характеристик нет" --> TF["📋 <b>Опросник Tally</b><br/><small>предзаполнен из чертежей</small>"]:::auto
-    SC -- "нет 3D-моделей" --> TE>"📌 <b>Инженеру · 4 ч</b><br/>разработать 3D-модели"]:::task
-    TF --> TM>"📌 <b>Менеджеру · 4 ч</b><br/>связаться с клиентом<br/>и заполнить опросник"]:::task
-    TM --> Q["📥 <b>Ответы опросника</b><br/><small>Details.txt и чертежи</small>"]:::auto
-    DT --> OK(["✅ <b>Опросник и 3D-модели готовы</b>"]):::stage
-    Q --> OK
-    TE --> OK
-    OK --> N(["➡️ <b>4 · Проверка наименований</b>"]):::stage
-    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
-    classDef task fill:#FFF4D6,stroke:#E0A100,color:#6B4E00
-    classDef stage fill:#E7F7E9,stroke:#2E9E4F,color:#14532D
-    linkStyle default stroke:#8A94A6,stroke-width:1.5px
-```
+<p align="center"><img src="docs/img/diagrams/s3.png" alt="Схема этапа 3" width="750"></p>
+
+**Что спрашивает опросник по каждой детали:**
+
+- наименование
+- количество
+- тип материала
+- марка
+- тип стали
+- термообработка
+- желаемая твёрдость
+- химико-термическое покрытие
+- электрохимическая обработка
+- квалитет точности
+- дополнительная информация
+- чертёж (при отсутствии в заявке для данной детали)
+
+Поля открываются уже заполненными из чертежей, менеджеру остаётся проверить и дополнить.
 
 <table>
 <tr>
-<td valign="top">
-<b>Что спрашивает опросник по каждой детали</b>
-<ul>
-<li>наименование</li>
-<li>количество</li>
-<li>тип материала</li>
-<li>марка</li>
-<li>тип стали</li>
-<li>термообработка</li>
-<li>желаемая твёрдость</li>
-<li>химико-термическое покрытие</li>
-<li>электрохимическая обработка</li>
-<li>квалитет точности</li>
-<li>дополнительная информация</li>
-<li>чертёж (при отсутствии в заявке для данной детали)</li>
-</ul>
-<sub>Поля открываются уже заполненными из чертежей, менеджеру остаётся проверить и дополнить</sub>
-</td>
-<td align="center" valign="top"><img src="docs/img/06-tally-form.png" alt="Предзаполненный опросник Tally" width="300"></td>
+<td align="center" valign="top"><img src="docs/img/06-tally-form-1.png" alt="Опросник Tally, начало" width="390"></td>
+<td align="center" valign="top"><img src="docs/img/06-tally-form-2.png" alt="Опросник Tally, продолжение" width="390"></td>
 </tr>
 </table>
+
+<p align="center"><sub>Опросник Tally, предзаполненный из чертежей</sub></p>
 
 <table>
 <tr>
@@ -355,21 +184,12 @@ flowchart TB
 
 Файлы папки заказа сверяются с `Details.txt`. У каждой детали должен быть комплект PDF + STP + DWG (сборочному чертежу модель не обязательна), имена приводятся к виду `1. Втулка.pdf`, дубли и мусор удаляются, а папки и файлы без расширения защищены от удаления. Если автоматика не может разобраться сама, инженер получает задачу со списком проблем. После её закрытия проверка запускается заново, и так до чистого результата.
 
-```mermaid
-flowchart LR
-    T(["🔔 <b>Этап 4</b>"]):::stage --> V["🔍 <b>Сверка и переименование</b><br/><small>PDF + STP + DWG<br/>по Details.txt</small>"]:::auto
-    V --> C{"Всё<br/>сходится?"}:::dec
-    C -- "да" --> N(["➡️ <b>5 · Расчёт</b>"]):::stage
-    C -- "нет" --> TE>"📌 <b>Инженеру · 2 ч</b><br/>проверить файлы"]:::task
-    TE -- "задача закрыта" --> V
-    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
-    classDef task fill:#FFF4D6,stroke:#E0A100,color:#6B4E00
-    classDef stage fill:#E7F7E9,stroke:#2E9E4F,color:#14532D
-    classDef dec fill:#FFFFFF,stroke:#64748B,color:#1F2937
-    linkStyle default stroke:#8A94A6,stroke-width:1.5px
-```
-
-<p align="center"><img src="docs/img/s04-task-file-check.png" alt="Задача инженеру: ручная проверка файлов со списком проблем" width="420"><br><sub>Задача инженеру: ручная проверка файлов со списком проблем</sub></p>
+<table>
+<tr>
+<td align="center" valign="middle"><img src="docs/img/diagrams/s4.png" alt="Схема этапа 4" width="400"></td>
+<td align="center" valign="middle"><img src="docs/img/s04-task-file-check.png" alt="Задача инженеру: ручная проверка файлов со списком проблем" width="400"><br><sub>Задача инженеру: ручная проверка файлов со списком проблем</sub></td>
+</tr>
+</table>
 
 <sub>⚙️ Воркфлоу 4 · [каталог](docs/workflows.md)</sub>
 
@@ -377,17 +197,7 @@ flowchart LR
 
 parts-table-builder собирает из `Details.txt` и первых страниц чертежей Excel-таблицу для производства: миниатюра чертежа в ячейке, характеристики на английском, колонка цены с защитой от ввода текстом. Папка `1_ТЗ_и_Брифинг` целиком упаковывается в архив с сохранением структуры, письмо с таблицей и архивом уходит на производство, копия сохраняется в «Отправленные», а в сделку пишется примечание.
 
-```mermaid
-flowchart LR
-    T(["🔔 <b>Этап 5</b>"]):::stage --> D["📁 <b>Папка ТЗ</b><br/><small>обход всех уровней</small>"]:::auto
-    D --> PB["🐍 <b>parts-table-builder</b><br/><small>Excel и ZIP</small>"]:::auto
-    PB --> E["✉️ <b>Письмо</b><br/><small>копия в «Отправленные»</small>"]:::auto
-    E --> P(["🏭 <b>Производство</b><br/><small>считает цену</small>"]):::ext
-    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
-    classDef stage fill:#E7F7E9,stroke:#2E9E4F,color:#14532D
-    classDef ext fill:#FFEBDD,stroke:#E8742F,color:#7A3510
-    linkStyle default stroke:#8A94A6,stroke-width:1.5px
-```
+<p align="center"><img src="docs/img/diagrams/s5.png" alt="Схема этапа 5" width="860"></p>
 
 <p align="center"><img src="docs/img/07-parts-table.png" alt="Таблица деталей для производства"><br><sub>Таблица для производства: миниатюры чертежей, характеристики, жёлтая колонка цены для подрядчика</sub></p>
 
@@ -397,21 +207,12 @@ flowchart LR
 
 Производство отвечает по-разному: ценой в тексте письма, фото чертежа с ценой, таблицей `.xlsx` или `.xls`. Диспетчер узнаёт такой ответ и переводит сделку на этот этап. Gemini извлекает итоговую цену и цены за единицу, а для таблиц сверяет итог с суммой позиций. Цена пишется в сделку и в файл «Расчётная цена» в папке заказа, вложения — в `3_Сметы_и_Счета`. Ассистент получает задачу сформировать КП, согласовать наценку и отправить КП клиенту; если цену распознать не удалось, приходит отдельное уведомление. Документы собираются в [TG-Боте Бухгалтерия](#tg-бот-бухгалтерия). Когда задача закрыта, сделка переходит на «КП отправлено».
 
-```mermaid
-flowchart LR
-    P(["🏭 <b>Ответ</b><br/><small>через диспетчер</small>"]):::ext --> AI{{"🧠 <b>Gemini</b><br/><small>текст · фото · таблицы</small>"}}:::ai
-    AI --> PR["💰 <b>Цена</b><br/><small>в сделку и на Диск</small>"]:::auto
-    PR --> TA>"📌 <b>Ассистенту · 1 ч</b><br/>сформировать КП"]:::task
-    TA -- "задача закрыта" --> N(["➡️ <b>7 · КП</b>"]):::stage
-    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
-    classDef ai fill:#F1E8FD,stroke:#8B5CF6,color:#4C1D95
-    classDef task fill:#FFF4D6,stroke:#E0A100,color:#6B4E00
-    classDef stage fill:#E7F7E9,stroke:#2E9E4F,color:#14532D
-    classDef ext fill:#FFEBDD,stroke:#E8742F,color:#7A3510
-    linkStyle default stroke:#8A94A6,stroke-width:1.5px
-```
-
-<p align="center"><img src="docs/img/s06-task-kp.png" alt="Задача ассистенту: сформировать КП, согласовать наценку и отправить клиенту" width="420"><br><sub>Задача ассистенту: сформировать КП, согласовать наценку и отправить клиенту</sub></p>
+<table>
+<tr>
+<td align="center" valign="middle"><img src="docs/img/diagrams/s6.png" alt="Схема этапа 6" width="264"></td>
+<td align="center" valign="middle"><img src="docs/img/s06-task-kp.png" alt="Задача ассистенту: сформировать КП, согласовать наценку и отправить клиенту" width="400"><br><sub>Задача ассистенту: сформировать КП, согласовать наценку и отправить клиенту</sub></td>
+</tr>
+</table>
 
 <sub>⚙️ Воркфлоу 6 «Обработка расчёта» · [каталог](docs/workflows.md)</sub>
 
@@ -421,26 +222,12 @@ flowchart LR
 
 **В разработке — ИИ-агент на Claude.** Агент отправляет КП и уточняет у клиента, удалось ли с ним ознакомиться. Если клиент не отвечает, менеджер получает задачу позвонить, а итог разговора пишет в TG-Бот Контроль задач в свободной форме, и он фиксируется в сделке. Согласие переводит сделку в «Согласование / оплата», возражения — в «Отработку возражений», где агент ведёт диалог по методике продаж. Для оплаты — проверка поступления по номеру заказа раз в пять дней и звонок, если оплаты нет 15 дней. Подробности в [дорожной карте](docs/ai-agent-roadmap.md).
 
-```mermaid
-flowchart TB
-    KP(["📨 <b>7 · КП отправлено</b>"]):::sale
-    KP -- "согласие" --> S8(["✅ <b>8 · Согласование / оплата</b>"]):::sale
-    KP -- "возражения" --> S9(["💬 <b>9 · Отработка возражений</b>"]):::plan
-    S9 -- "договорились" --> S8
-    S8 --> CHK["🐍 <b>kp-bot</b><br/><small>вид оплаты по снимку КП</small>"]:::auto
-    CHK -- "предоплата" --> TA>"📌 <b>Ассистенту · 2 ч</b><br/>номер и дата платёжки"]:::task
-    CHK -- "постоплата" --> OK["задача не нужна"]:::plan
-    AG{{"🤖 <b>ИИ-агент на Claude</b><br/><small>в разработке</small>"}}:::plan
-    AG -.-> KP
-    AG -.-> S9
-    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
-    classDef sale fill:#FFF1E0,stroke:#EA8A1E,color:#7A3E00
-    classDef task fill:#FFF4D6,stroke:#E0A100,color:#6B4E00
-    classDef plan fill:#F6F6F6,stroke:#9CA3AF,color:#4B5563,stroke-dasharray:5 4
-    linkStyle default stroke:#8A94A6,stroke-width:1.5px
-```
-
-<p align="center"><img src="docs/img/s08-task-payment.png" alt="Задача ассистенту: номер и дата платёжного документа, с готовой командой для бота" width="420"><br><sub>Задача ассистенту: номер и дата платёжного документа, с готовой командой для бота</sub></p>
+<table>
+<tr>
+<td align="center" valign="middle"><img src="docs/img/diagrams/s789.png" alt="Схема этапов 7–9" width="400"></td>
+<td align="center" valign="middle"><img src="docs/img/s08-task-payment.png" alt="Задача ассистенту: номер и дата платёжного документа, с готовой командой для бота" width="400"><br><sub>Задача ассистенту: номер и дата платёжного документа, с готовой командой для бота</sub></td>
+</tr>
+</table>
 
 <sub>⚙️ Воркфлоу 9 «Запрос платёжного документа» · [каталог](docs/workflows.md)</sub>
 
@@ -448,34 +235,17 @@ flowchart TB
 
 Руководитель или инженер нажимает в TG-Боте Контроль задач «🏭 Разместить в производство» и отправляет номер заказа. Сделка переходит на этап «Производство», папка ТЗ упаковывается в архив, производству уходит письмо о запуске. Инженер сразу получает задачу «Сделать персональную упаковку для деталей» со сроком пять суток; срок меняется кнопками прямо в карточке задачи, до 20 дней.
 
-```mermaid
-flowchart LR
-    R(["👤 <b>Руководитель</b><br/><b>или инженер</b>"]):::staff --> B["🤖 <b>TG-Бот Контроль задач</b><br/><small>«Разместить в производство»</small>"]:::auto
-    B --> ST(["➡️ <b>10 · Производство</b>"]):::stage
-    ST --> W["✉️ <b>Письмо о запуске</b><br/><small>с архивом ТЗ</small>"]:::auto
-    ST --> TE>"📌 <b>Инженеру · 5 суток</b><br/>персональная упаковка"]:::task
-    classDef staff fill:#E0F4F1,stroke:#1E9E8A,color:#0B4F45
-    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
-    classDef task fill:#FFF4D6,stroke:#E0A100,color:#6B4E00
-    classDef stage fill:#E7F7E9,stroke:#2E9E4F,color:#14532D
-    linkStyle default stroke:#8A94A6,stroke-width:1.5px
-```
+<p align="center"><img src="docs/img/diagrams/s10.png" alt="Схема этапа 10" width="860"></p>
 
-<table>
-<tr>
-<td valign="top">
-<b>Как это выглядит в боте</b>
-<ol>
-<li>Кнопка «Разместить в производство» в меню</li>
-<li>Бот присылает фразу, в которую нужно подставить номер заказа</li>
-<li>Карточка задачи «Персональная упаковка» со ссылками на папку заказа и сделку</li>
-<li>Кнопки смены срока: 5, 10, 15 или 20 дней</li>
-<li>Итог: заказ размещён, задача поставлена, письмо отправлено</li>
-</ol>
-</td>
-<td align="center" valign="top"><img src="docs/img/08-production-placement.jpg" alt="Размещение в производство из бота" width="400"></td>
-</tr>
-</table>
+**Как это выглядит в боте:**
+
+1. Кнопка «Разместить в производство» в меню
+2. Бот присылает фразу, в которую нужно подставить номер заказа
+3. Карточка задачи «Персональная упаковка» со ссылками на папку заказа и сделку
+4. Кнопки смены срока: 5, 10, 15 или 20 дней
+5. Итог: заказ размещён, задача поставлена, письмо отправлено
+
+<p align="center"><img src="docs/img/08-production-placement.jpg" alt="Размещение в производство из бота" width="600"></p>
 
 <sub>⚙️ Ветка роутера 0.2 и воркфлоу 10 · [каталог](docs/workflows.md)</sub>
 
@@ -487,25 +257,7 @@ flowchart LR
 
 Мини-приложение в TG-Боте Контроль задач поверх n8n Data Tables: у каждой детали и партии есть статус, а переходы между статусами делает автоматика. Заказы и списки деталей синхронизируются из amoCRM каждые 15 минут, повторный запуск ничего не перезаписывает.
 
-```mermaid
-flowchart TB
-    A(["📥 <b>Приход деталей</b><br/><small>инженер или руководитель</small>"]):::staff --> T1>"📌 <b>Инженеру · 2 ч</b><br/>проверка размеров"]:::task
-    T1 -- "не прошли" --> RET["↩️ Ждут повторного прихода"]:::plan
-    T1 -- "прошли" --> UPD["📄 <b>УПД</b><br/><small>клиенту и ассистенту</small>"]:::auto
-    T1 -- "прошли" --> T2>"📌 <b>Инженеру · 2 ч</b><br/>фотоотчёт упаковки"]:::task
-    T2 -- "в папке 3+ фото" --> T3>"📌 <b>Ассистенту · 2 ч</b><br/>проверка перед отгрузкой"]:::task
-    T3 -- "замечание" --> T4>"📌 <b>Инженеру</b><br/>переснять фото"]:::task
-    T4 -.-> T3
-    T3 -- "приняты все<br/>детали заказа" --> T5>"📌 <b>Ассистенту</b><br/>КП бухгалтеру"]:::task
-    T3 -- "приняты не все" --> W["⏳ Ждём остальные партии"]:::plan
-    T5 --> N(["➡️ <b>13 · Отгрузка / ЭДО</b>"]):::stage
-    classDef staff fill:#E0F4F1,stroke:#1E9E8A,color:#0B4F45
-    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
-    classDef task fill:#FFF4D6,stroke:#E0A100,color:#6B4E00
-    classDef stage fill:#E7F7E9,stroke:#2E9E4F,color:#14532D
-    classDef plan fill:#F6F6F6,stroke:#9CA3AF,color:#4B5563,stroke-dasharray:5 4
-    linkStyle default stroke:#8A94A6,stroke-width:1.5px
-```
+<p align="center"><img src="docs/img/diagrams/s12.png" alt="Схема этапа 12" width="860"></p>
 
 - **Приход.** Инженер или руководитель нажимает «📥 Приход деталей», вводит номер заказа и отмечает пришедшие детали с количеством — создаётся партия. Первая партия переводит сделку с «Доставки» на «Упаковку и фото».
 - **Размеры и УПД.** Детали, не прошедшие проверку размеров, ждут повторного прихода. По прошедшим kp-bot выпускает УПД: подписанный уходит клиенту на почту, неподписанный — ассистенту в Telegram, оба сохраняются в папку заказа.
@@ -533,15 +285,7 @@ flowchart TB
 
 Когда приняты все детали, ассистент отправляет бухгалтеру КП для отгрузочных документов. Через 12 часов после закрытия этой задачи он получает следующую: уточнить у бухгалтера, отправлены ли документы клиенту. Её закрытие переводит сделку на проверку качества. Отложенные шаги считает расписание: воркфлоу запускается каждые 20 минут и перед любым переводом проверяет текущий этап, чтобы не вернуть сделку назад.
 
-```mermaid
-flowchart LR
-    A(["✅ <b>Закрыта задача</b><br/><small>«КП бухгалтеру»</small>"]):::staff -- "через 12 ч" --> TA>"📌 <b>Ассистенту · 12 ч</b><br/>уточнить у бухгалтера,<br/>отправлены ли документы"]:::task
-    TA -- "задача закрыта" --> N(["➡️ <b>14 · Проверка качества</b>"]):::stage
-    classDef staff fill:#E0F4F1,stroke:#1E9E8A,color:#0B4F45
-    classDef task fill:#FFF4D6,stroke:#E0A100,color:#6B4E00
-    classDef stage fill:#E7F7E9,stroke:#2E9E4F,color:#14532D
-    linkStyle default stroke:#8A94A6,stroke-width:1.5px
-```
+<p align="center"><img src="docs/img/diagrams/s13.png" alt="Схема этапа 13" width="860"></p>
 
 <table>
 <tr>
@@ -554,16 +298,12 @@ flowchart LR
 
 Через семь дней после отправки документов менеджер получает задачу связаться с клиентом и узнать, всё ли в порядке с деталями. Срок — сутки, а если задача зависнет, её подхватят напоминания, как и любую другую. Закрытие задачи переводит сделку в «Успешно реализовано».
 
-```mermaid
-flowchart LR
-    S(["🔍 <b>Этап 14</b>"]):::stage -- "через 7 дней" --> TM>"📌 <b>Менеджеру · 1 день</b><br/>узнать у клиента,<br/>всё ли в порядке с деталями"]:::task
-    TM -- "задача закрыта" --> N(["🏁 <b>15 · Успешно реализовано</b>"]):::stage
-    classDef task fill:#FFF4D6,stroke:#E0A100,color:#6B4E00
-    classDef stage fill:#E7F7E9,stroke:#2E9E4F,color:#14532D
-    linkStyle default stroke:#8A94A6,stroke-width:1.5px
-```
-
-<p align="center"><img src="docs/img/s14-task-quality.png" alt="Задача менеджеру: узнать у клиента, всё ли в порядке с деталями" width="420"><br><sub>Задача менеджеру: узнать у клиента, всё ли в порядке с деталями</sub></p>
+<table>
+<tr>
+<td align="center" valign="middle"><img src="docs/img/diagrams/s14.png" alt="Схема этапа 14" width="291"></td>
+<td align="center" valign="middle"><img src="docs/img/s14-task-quality.png" alt="Задача менеджеру: узнать у клиента, всё ли в порядке с деталями" width="400"><br><sub>Задача менеджеру: узнать у клиента, всё ли в порядке с деталями</sub></td>
+</tr>
+</table>
 
 <sub>⚙️ Этапы 13 и 14 ведёт воркфлоу 13 · [каталог](docs/workflows.md)</sub>
 
@@ -591,45 +331,17 @@ flowchart LR
 
 **Поручения голосом и текстом.** Руководитель диктует или пишет поручение. Gemini выделяет одну или несколько задач, исполнителя, срок и связанную сделку: её он ищет по упомянутому контакту или компании, в том числе через транслит и нечёткое сравнение. Бот показывает карточку, где кнопками можно сменить сделку, исполнителя и срок или поправить задачу свободным текстом. Ставить задачи может только пользователь из белого списка.
 
-```mermaid
-flowchart LR
-    V(["🎙️ <b>Голос или текст</b><br/><small>руководителя</small>"]):::staff --> G{{"🧠 <b>Gemini</b><br/><small>разбор поручения</small>"}}:::ai --> C["📋 <b>Карточка задачи</b><br/><small>текст · исполнитель · срок · сделка</small>"]:::auto
-    C --> b1["👤 <b>Исполнитель</b><br/><small>выбрать другого</small>"]:::task
-    C --> b2["📅 <b>Срок</b><br/><small>сменить дату</small>"]:::task
-    C --> b3["🔗 <b>Сделка</b><br/><small>привязать к другой</small>"]:::task
-    C --> b4["✏️ <b>Правка текстом</b><br/><small>«срок пятница 15:00»</small>"]:::task
-    C --> b5(["✅ <b>Поставить</b><br/><small>задача в amoCRM,<br/>уведомление исполнителю</small>"]):::stage
-    C --> b6(["❌ <b>Отмена</b>"]):::plan
-    classDef staff fill:#E0F4F1,stroke:#1E9E8A,color:#0B4F45
-    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
-    classDef ai fill:#F1E8FD,stroke:#8B5CF6,color:#4C1D95
-    classDef task fill:#FFF4D6,stroke:#E0A100,color:#6B4E00
-    classDef stage fill:#E7F7E9,stroke:#2E9E4F,color:#14532D
-    classDef plan fill:#F6F6F6,stroke:#9CA3AF,color:#4B5563,stroke-dasharray:5 4
-    linkStyle default stroke:#8A94A6,stroke-width:1.5px
-```
+<p align="center"><img src="docs/img/diagrams/voice.png" alt="Схема постановки задачи голосом" width="566"></p>
 
 **Ответы на задачи.** Исполнитель отвечает на сообщение задачи обычным текстом, например «готово» или «перенесите на пятницу». Gemini определяет намерение, и задача закрывается или получает новый срок. По голосовым поручениям ответ со статусом дописывается в задачу, а перенос срока применяется только после подтверждения руководителя. Задачи, которые закрываются кнопками бота, ответом закрыть нельзя — только перенести срок.
 
-<p align="center"><img src="docs/img/bot-task-reply.png" alt="Ответ исполнителя «готово» закрывает задачу в amoCRM" width="420"><br><sub>Ответ исполнителя «готово» закрывает задачу в amoCRM</sub></p>
+<p align="center"><img src="docs/img/bot-task-reply.png" alt="Ответ исполнителя «готово» закрывает задачу в amoCRM" width="520"><br><sub>Ответ исполнителя «готово» закрывает задачу в amoCRM</sub></p>
 
 **Напоминания и контроль.** Каждый час бот обходит сделки с открытыми задачами. Напоминания нарастают по цвету, а начиная с четвёртого руководитель получает эскалацию на каждом напоминании, пока задача не закрыта. Для голосовых поручений отдельно работают вопрос о статусе, сигнал руководителю, если исполнитель молчит, предупреждение перед дедлайном и фиксация просрочки.
 
-```mermaid
-flowchart LR
-    T(["⏰ <b>Срок прошёл</b>"]):::alert --> R1["🟢 <b>№1</b><br/><small>напоминание</small>"]:::exec
-    R1 -- "через час" --> R2["🟡 <b>№2</b><br/><small>повторное</small>"]:::task
-    R2 -- "через час" --> R3["🔴 <b>№3</b><br/><small>срочно</small>"]:::alert
-    R3 -- "через час" --> R4["🔴 <b>№4 и далее</b><br/><small>+ 🚨 руководителю</small>"]:::alert
-    classDef exec fill:#E7F7E9,stroke:#2E9E4F,color:#14532D
-    classDef task fill:#FFF4D6,stroke:#E0A100,color:#6B4E00
-    classDef alert fill:#FDECEC,stroke:#DC3B3B,color:#7F1D1D
-    linkStyle default stroke:#8A94A6,stroke-width:1.5px
-```
-
 <table>
 <tr>
-<td align="center" valign="top"><img src="docs/img/11-voice-task-card.png" alt="Карточка задачи из голосового сообщения" width="380"><br><sub>Карточка задачи из голосового сообщения</sub></td>
+<td align="center" valign="top"><img src="docs/img/11-voice-task-card.png" alt="Карточка задачи из голосового сообщения" width="380"><br><sub>Карточка задачи из голосового сообщения</sub><br><br><img src="docs/img/diagrams/remind.png" alt="Схема напоминаний" width="273"></td>
 <td align="center" valign="top"><img src="docs/img/12-reminders.png" alt="Напоминания и эскалация" width="380"><br><sub>Напоминания четырёх уровней и эскалация руководителю</sub></td>
 </tr>
 </table>
@@ -638,35 +350,7 @@ flowchart LR
 
 Отдельный Telegram-бот с бэкендом kp-bot на FastAPI ([репозиторий](https://github.com/MaxBakshaev/kp-bot)). Ассистент присылает позиции с себестоимостью, бот считает цену (себестоимость × курс × наценка × (1 + НДС)) с округлением, присылает PDF на проверку и пересобирает его по правкам наценки прямо в чате. После утверждения выпускаются КП и счёт, а для покупателей с договором — спецификация и приложение с чертежами, которые n8n находит в папке заказа. УПД собирается на этапе 12 в двух версиях, подписанной для клиента и без подписи для бухгалтерии, со сквозной нумерацией кодов товара и счетов-фактур; номера сдвигаются только после успешного выпуска, поэтому в нумерации не бывает пропусков. УПД привязан к замороженному снимку КП, поэтому цены не «уезжают», даже если настройки изменились после отгрузки. Состояние бота хранится в SQLite.
 
-```mermaid
-flowchart LR
-    subgraph IN["👩‍💼 Ассистент задаёт"]
-        direction LR
-        i1["📝 <b>позиции</b><br/><small>и себестоимость</small>"]:::staff
-        i2["💱 <b>/kurs</b><br/><small>рабочий курс</small>"]:::staff
-        i3["🧾 <b>/nds · /round</b><br/><small>НДС и округление</small>"]:::staff
-        i4["🏢 <b>/buyers</b><br/><small>покупатель</small>"]:::staff
-        i5["💳 <b>/platezhka</b><br/><small>номер платёжки</small>"]:::staff
-    end
-    K{{"🐍 <b>kp-bot</b><br/><small>FastAPI + SQLite</small>"}}:::auto
-    subgraph OUT["📄 Бот выпускает"]
-        direction LR
-        o1["📄 <b>КП</b>"]:::exec
-        o2["🧾 <b>Счёт на оплату</b>"]:::exec
-        o3["📑 <b>Спецификация</b>"]:::exec
-        o4["📐 <b>Приложение с чертежами</b>"]:::exec
-        o5["📄 <b>УПД</b><br/><small>с подписью и без</small>"]:::exec
-    end
-    IN --> K --> OUT
-    K -.- DB[("🗄️ <b>SQLite</b><br/><small>снимки КП, счётчики,<br/>покупатели</small>")]:::store
-    classDef staff fill:#E0F4F1,stroke:#1E9E8A,color:#0B4F45
-    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
-    classDef exec fill:#E7F7E9,stroke:#2E9E4F,color:#14532D
-    classDef store fill:#EEF1F5,stroke:#64748B,color:#1F2937
-    linkStyle default stroke:#8A94A6,stroke-width:1.5px
-    style IN fill:none,stroke:#9CA3AF,stroke-dasharray:4 3
-    style OUT fill:none,stroke:#9CA3AF,stroke-dasharray:4 3
-```
+<p align="center"><img src="docs/img/diagrams/kp.png" alt="Схема TG-Бота Бухгалтерия" width="860"></p>
 
 | Команда | Назначение | Команда | Назначение |
 |---|---|---|---|
@@ -689,7 +373,7 @@ flowchart LR
 <li>Кнопки: утвердить, добавить или убрать позицию, условия оплаты, сменить покупателя</li>
 </ol>
 </td>
-<td align="center" valign="top"><img src="docs/img/13-kp-bot-dialog.png" alt="Диалог с TG-Ботом Бухгалтерия" width="360"></td>
+<td align="center" valign="top"><img src="docs/img/13-kp-bot-dialog.png" alt="Диалог с TG-Ботом Бухгалтерия" width="520"></td>
 </tr>
 </table>
 
@@ -711,30 +395,10 @@ flowchart LR
 
 Чтобы завести заявку вручную (например, если чертежи пришли не на почту), есть внутренняя форма из трёх шагов. Форма отправляет обычное письмо на ящик заявок со служебными маркерами ID, поэтому заявка проходит тот же конвейер, но клиент берётся по ID, без нечёткого поиска.
 
-```mermaid
-flowchart LR
-    S(["👤 <b>Сотрудник</b>"]):::staff --> F["📝 <b>Форма n8n</b><br/><small>компания → контакт → чертежи</small>"]:::auto
-    F --> M["✉️ <b>Письмо</b><br/><small>с маркерами ID</small>"]:::auto
-    M --> D["🧭 <b>Диспетчер</b>"]:::auto
-    D --> N(["➡️ <b>1 · Новая заявка</b><br/><small>клиент по ID</small>"]):::stage
-    classDef staff fill:#E0F4F1,stroke:#1E9E8A,color:#0B4F45
-    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
-    classDef stage fill:#E7F7E9,stroke:#2E9E4F,color:#14532D
-    linkStyle default stroke:#8A94A6,stroke-width:1.5px
-```
-
 <table>
 <tr>
-<td valign="top">
-<b>Три шага формы</b>
-<ol>
-<li>Часть названия компании-заказчика</li>
-<li>Выбор компании из найденных в amoCRM</li>
-<li>Контактное лицо, комментарий и чертежи, можно архивом</li>
-</ol>
-<sub>Списки строятся из живых данных amoCRM в момент заполнения</sub>
-</td>
-<td align="center" valign="top"><img src="docs/img/14-n8n-form.png" alt="Форма ручной заявки в n8n" width="300"></td>
+<td align="center" valign="middle"><img src="docs/img/diagrams/form.png" alt="Схема формы ручной заявки" width="308"></td>
+<td align="center" valign="top"><img src="docs/img/14-n8n-form.png" alt="Форма ручной заявки в n8n" width="450"></td>
 </tr>
 </table>
 
@@ -742,16 +406,7 @@ flowchart LR
 
 **Обработка ошибок.** Общий обработчик ошибок присылает два сообщения: разработчику — технические детали и что проверить, руководителю — понятное описание, что сделать вручную. Нода-виновник определяется автоматически, и под неё подбирается пояснение. Вокруг обращений к amoCRM, Google, Data Tables и Gemini стоят локальные ветки ошибок с такими же двойными уведомлениями. Диспетчер писем каждое утро в 04:00 перезапускается с проверкой статуса: без перезагрузки IMAP-триггер примерно через месяц тихо переставал получать письма.
 
-```mermaid
-flowchart LR
-    E(["💥 <b>Сбой</b><br/><small>в любом воркфлоу</small>"]):::alert --> H["⚙️ <b>Обработчик ошибок</b><br/><small>находит узел-виновник</small>"]:::auto
-    H --> DEV["👨‍💻 <b>Разработчику</b><br/><small>ошибка и что проверить</small>"]:::staff
-    H --> BOSS["👤 <b>Руководителю</b><br/><small>что сделать вручную</small>"]:::staff
-    classDef staff fill:#E0F4F1,stroke:#1E9E8A,color:#0B4F45
-    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
-    classDef alert fill:#FDECEC,stroke:#DC3B3B,color:#7F1D1D
-    linkStyle default stroke:#8A94A6,stroke-width:1.5px
-```
+<p align="center"><img src="docs/img/diagrams/errors.png" alt="Схема обработки ошибок" width="749"></p>
 
 | Кому | Сообщение |
 |---|---|
@@ -762,17 +417,7 @@ flowchart LR
 
 **Бэкап.** Каждую ночь cron выгружает все воркфлоу в приватный репозиторий GitHub. Файлы получают читаемые имена, черновики с префиксом `[test]` пропускаются, `pinData` и поле `shared` с email владельца вычищаются, перед коммитом работает проверка gitleaks. Коммит появляется, только если что-то изменилось, и перечисляет изменённые воркфлоу. Доступ идёт через SSH deploy key, привязанный к одному репозиторию. Сам сервер дополнительно защищён снимками VPS.
 
-```mermaid
-flowchart LR
-    C(["🕒 <b>03:00</b><br/><small>cron</small>"]):::auto --> X["📤 <b>Экспорт</b><br/><small>все воркфлоу</small>"]:::auto
-    X --> S["🧹 <b>Очистка</b><br/><small>[test], pinData, shared</small>"]:::auto
-    S --> L["🔐 <b>gitleaks</b>"]:::alert
-    L --> G[("💾 <b>GitHub</b><br/><small>коммит при изменениях</small>")]:::store
-    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
-    classDef store fill:#EEF1F5,stroke:#64748B,color:#1F2937
-    classDef alert fill:#FDECEC,stroke:#DC3B3B,color:#7F1D1D
-    linkStyle default stroke:#8A94A6,stroke-width:1.5px
-```
+<p align="center"><img src="docs/img/diagrams/backup.png" alt="Схема ночного бэкапа" width="860"></p>
 
 ## Статус и планы
 

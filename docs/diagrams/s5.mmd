@@ -1,0 +1,9 @@
+flowchart LR
+    T(["🔔 <b>Этап 5</b>"]):::stage --> D["📁 <b>Папка ТЗ</b><br/><small>обход всех уровней</small>"]:::auto
+    D --> PB["🐍 <b>parts-table-builder</b><br/><small>Excel и ZIP</small>"]:::auto
+    PB --> E["✉️ <b>Письмо</b><br/><small>копия в «Отправленные»</small>"]:::auto
+    E --> P(["🏭 <b>Производство</b><br/><small>считает цену</small>"]):::ext
+    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
+    classDef stage fill:#E7F7E9,stroke:#2E9E4F,color:#14532D
+    classDef ext fill:#FFEBDD,stroke:#E8742F,color:#7A3510
+    linkStyle default stroke:#8A94A6,stroke-width:1.5px

@@ -1,0 +1,6 @@
+flowchart LR
+    A>"📌 <b>Ассистенту</b><br/>отправить КП бухгалтеру"]:::task -- "задача закрыта,<br/>через 12 ч" --> TA>"📌 <b>Ассистенту · 12 ч</b><br/>уточнить у бухгалтера,<br/>отправлены ли документы"]:::task
+    TA -- "задача закрыта" --> N(["➡️ <b>14 · Проверка качества</b>"]):::stage
+    classDef task fill:#FFF4D6,stroke:#E0A100,color:#6B4E00
+    classDef stage fill:#E7F7E9,stroke:#2E9E4F,color:#14532D
+    linkStyle default stroke:#8A94A6,stroke-width:1.5px

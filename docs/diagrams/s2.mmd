@@ -1,0 +1,8 @@
+flowchart LR
+    T(["🔔 <b>Этап 2</b>"]):::stage --> C["📁 <b>Папка компании</b><br/><small>или новая с номером</small>"]:::auto
+    C --> O["🗂️ <b>Папка заказа</b><br/><small>3 подпапки</small>"]:::auto
+    O --> U["📎 <b>Вложения</b><br/><small>в 1_ТЗ_и_Брифинг</small>"]:::auto
+    U --> N(["➡️ <b>3 · Сбор ТЗ</b>"]):::stage
+    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
+    classDef stage fill:#E7F7E9,stroke:#2E9E4F,color:#14532D
+    linkStyle default stroke:#8A94A6,stroke-width:1.5px

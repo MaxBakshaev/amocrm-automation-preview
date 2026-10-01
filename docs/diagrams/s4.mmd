@@ -1,0 +1,11 @@
+flowchart TB
+    T(["🔔 <b>Этап 4</b>"]):::stage --> V["🔍 <b>Сверка и переименование</b><br/><small>PDF + STP + DWG по Details.txt</small>"]:::auto
+    V --> C{"Всё<br/>сходится?"}:::dec
+    C -- "да" --> N(["➡️ <b>5 · Расчёт и инженер</b>"]):::stage
+    C -- "нет" --> TE>"📌 <b>Инженеру · 2 ч</b><br/>проверить файлы"]:::task
+    TE -- "задача закрыта" --> V
+    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
+    classDef task fill:#FFF4D6,stroke:#E0A100,color:#6B4E00
+    classDef stage fill:#E7F7E9,stroke:#2E9E4F,color:#14532D
+    classDef dec fill:#FFFFFF,stroke:#64748B,color:#1F2937
+    linkStyle default stroke:#8A94A6,stroke-width:1.5px

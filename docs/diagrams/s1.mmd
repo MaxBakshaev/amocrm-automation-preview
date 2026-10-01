@@ -1,0 +1,11 @@
+flowchart LR
+    T(["🔔 <b>Этап 1</b><br/><small>письмо и вложения</small>"]):::stage --> AI{{"🧠 <b>Gemini Pro</b><br/><small>разбор чертежей</small>"}}:::ai
+    AI --> L["📇 <b>Поля сделки</b><br/><small>детали, материалы</small>"]:::auto
+    L --> K["👤 <b>Клиент в CRM</b><br/><small>найти или создать</small>"]:::auto
+    K --> N(["➡️ <b>2 · Файлы</b>"]):::stage
+    AI -. "мало данных" .-> PM["📣 Руководителю"]:::alert
+    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
+    classDef ai fill:#F1E8FD,stroke:#8B5CF6,color:#4C1D95
+    classDef stage fill:#E7F7E9,stroke:#2E9E4F,color:#14532D
+    classDef alert fill:#FDECEC,stroke:#DC3B3B,color:#7F1D1D
+    linkStyle default stroke:#8A94A6,stroke-width:1.5px

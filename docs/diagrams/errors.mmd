@@ -1,0 +1,8 @@
+flowchart LR
+    E(["💥 <b>Сбой</b><br/><small>в любом воркфлоу</small>"]):::alert --> H["⚙️ <b>Обработчик ошибок</b><br/><small>находит узел-виновник</small>"]:::auto
+    H --> DEV["👨‍💻 <b>Разработчику</b><br/><small>ошибка и что проверить</small>"]:::staff
+    H --> BOSS["👤 <b>Руководителю</b><br/><small>что сделать вручную</small>"]:::staff
+    classDef staff fill:#E0F4F1,stroke:#1E9E8A,color:#0B4F45
+    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
+    classDef alert fill:#FDECEC,stroke:#DC3B3B,color:#7F1D1D
+    linkStyle default stroke:#8A94A6,stroke-width:1.5px

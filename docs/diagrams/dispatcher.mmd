@@ -1,0 +1,21 @@
+flowchart TB
+    M(["📬 <b>Новое письмо</b>"]):::client --> PRE["Нормализация текста,<br/>кодировки и вложений"]:::auto
+    PRE -. "битая кодировка" .-> A1["🚨 Разработчику"]:::alert
+    PRE --> LLM{{"🧠 <b>Gemini</b><br/><small>8 категорий · резерв Pro</small>"}}:::ai
+    LLM -. "сбой модели" .-> A2["🚨 Руководителю<br/>и разработчику"]:::alert
+    LLM --> OVR["Код сверяет формальные признаки:<br/>отправитель, № заказа, файл расчёта"]:::auto
+    OVR -- "новая заявка" --> REAL{"Похоже<br/>на заявку?"}:::dec
+    OVR -- "расчёт<br/>производства" --> FIND["Поиск сделки<br/>по номеру заказа"]:::auto
+    OVR -- "статус, финансы, техника,<br/>логистика, спам" --> RES["Пока без действий:<br/>ветки заготовлены"]:::plan
+    REAL -- "да" --> NEW(["➡️ <b>1 · Новая заявка</b><br/><small>с атомарным номером</small>"]):::stage
+    REAL -- "нет" --> SUS["📣 Руководителю:<br/>подозрительная заявка"]:::alert
+    FIND -- "найдена" --> CALC(["➡️ <b>6 · Обработка расчёта</b>"]):::stage
+    FIND -. "нет" .-> NF["📣 Руководителю<br/>и разработчику"]:::alert
+    classDef client fill:#FDE7EF,stroke:#D63A6E,color:#7A1236
+    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
+    classDef ai fill:#F1E8FD,stroke:#8B5CF6,color:#4C1D95
+    classDef stage fill:#E7F7E9,stroke:#2E9E4F,color:#14532D
+    classDef alert fill:#FDECEC,stroke:#DC3B3B,color:#7F1D1D
+    classDef plan fill:#F6F6F6,stroke:#9CA3AF,color:#4B5563,stroke-dasharray:5 4
+    classDef dec fill:#FFFFFF,stroke:#64748B,color:#1F2937
+    linkStyle default stroke:#8A94A6,stroke-width:1.5px

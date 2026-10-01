@@ -1,0 +1,24 @@
+flowchart TB
+    V(["🎙️ <b>Голос или текст</b><br/><small>руководителя</small>"]):::staff --> G{{"🧠 <b>Gemini</b><br/><small>разбор поручения</small>"}}:::ai
+    G --> C["📋 <b>Карточка задачи</b><br/><small>текст · исполнитель · срок · сделка</small>"]:::auto
+    C --> BTN
+    subgraph BTN["Кнопки карточки"]
+        direction TB
+        b1["👤 <b>Исполнитель</b><br/><small>выбрать другого</small>"]:::task
+        b2["📅 <b>Срок</b><br/><small>сменить дату</small>"]:::task
+        b3["🔗 <b>Сделка</b><br/><small>привязать к другой</small>"]:::task
+        b4["✏️ <b>Правка текстом</b><br/><small>«срок пятница 15:00»</small>"]:::task
+        b5(["✅ <b>Поставить</b><br/><small>задача в amoCRM,<br/>уведомление исполнителю</small>"]):::stage
+        b6(["❌ <b>Отмена</b>"]):::plan
+        b1 ~~~ b3 ~~~ b5
+        b2 ~~~ b4 ~~~ b6
+    end
+    classDef staff fill:#E0F4F1,stroke:#1E9E8A,color:#0B4F45
+    classDef auto fill:#E6F0FF,stroke:#3B7DDD,color:#123A73
+    classDef ai fill:#F1E8FD,stroke:#8B5CF6,color:#4C1D95
+    classDef task fill:#FFF4D6,stroke:#E0A100,color:#6B4E00
+    classDef stage fill:#E7F7E9,stroke:#2E9E4F,color:#14532D
+    classDef plan fill:#F6F6F6,stroke:#9CA3AF,color:#4B5563,stroke-dasharray:5 4
+    linkStyle default stroke:#8A94A6,stroke-width:1.5px
+    style BTN fill:none,stroke:#9CA3AF,stroke-dasharray:4 3
+    linkStyle 3,4,5,6 stroke:transparent,stroke-width:0px
